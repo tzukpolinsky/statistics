@@ -34,10 +34,11 @@ void LinearRegression::calculateLinearCorrelation() {
         xVariance += std::pow(xDiff, 2);
         yVariance += std::pow(xDiff, 2);
     }
-    linearCorrelation = coVariance / std::sqrt(xVariance * yVariance); //peterson linear correlation
+    linearCorrelation = coVariance / std::sqrt(xVariance * yVariance); //Pearson linear correlation
     coVariance /= double(size);
     xVariance /= double(size);
     yVariance /= double(size);
+    fisherLinearCorrelation = 0.5 * std::log((1 + linearCorrelation) / (1 - linearCorrelation));
 }
 
 void LinearRegression::calculateLinearEquation() {
@@ -77,4 +78,30 @@ void LinearRegression::run() {
     calculateLinearCorrelation();
     calculateLinearEquation();
     testResult();
+}
+
+LinearRegression::LinearRegression() {
+
+}
+
+void LinearRegression::setX(std::vector<double> &x) {
+    this->x = x;
+    if (!y.empty()) {
+        if (x.size() != y.size()) {
+            std::cout << "could not create liner regression on different lengthen data" << std::endl;
+        } else {
+            size = x.size();
+        }
+    }
+}
+
+void LinearRegression::setY(std::vector<double> &y) {
+    this->y = y;
+    if (!x.empty()) {
+        if (x.size() != y.size()) {
+            std::cout << "could not create liner regression on different lengthen data" << std::endl;
+        } else {
+            size = y.size();
+        }
+    }
 }

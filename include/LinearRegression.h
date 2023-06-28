@@ -13,13 +13,14 @@
 class LinearRegression {
 public:
     LinearRegression(std::vector<double> &x, std::vector<double> &y);
-
+    LinearRegression();
     void run();
 
     const std::vector<double> &getResiduals() const {
         return residuals;
     }
-
+    void setX(std::vector<double> &x);
+    void setY(std::vector<double> &y);
     // Getter for meanX
     double getMeanX() const {
         return meanX;
@@ -115,6 +116,7 @@ private:
     double xVariance;
     double yVariance;
     double linearCorrelation;
+    double fisherLinearCorrelation;
     double slope;
     double yIntercepet;
     double SSE;
