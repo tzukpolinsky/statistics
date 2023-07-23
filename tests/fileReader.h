@@ -8,6 +8,8 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <unordered_map>
+
 std::unordered_map<int, std::vector<double>> readDataScientistsSalaryByYears(std::string fileName, int salaryIndex) {
     std::ifstream stocksData(fileName);
     std::unordered_map<int, std::vector<double>> stocks;
@@ -16,7 +18,7 @@ std::unordered_map<int, std::vector<double>> readDataScientistsSalaryByYears(std
     while (std::getline(stocksData, line)) {
         std::stringstream lineStream(line);
         int year;
-        lineStream >>year;
+        lineStream >> year;
         if (lineStream.peek() == ',')
             lineStream.ignore();
         for (int i = 1; i < salaryIndex; ++i) {
@@ -43,7 +45,7 @@ std::unordered_map<std::string, std::vector<double>> readMicrosoftStocksByYears(
     while (std::getline(stocksData, line)) {
         std::stringstream lineStream(line);
         std::string date;
-        std::getline(lineStream,date,',');
+        std::getline(lineStream, date, ',');
         if (lineStream.peek() == ',')
             lineStream.ignore();
         for (int i = 1; i < priceIndex; ++i) {

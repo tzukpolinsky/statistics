@@ -59,7 +59,7 @@ void Ttests::variance() {
     }
 }
 
-void Ttests::calculateStatisticsT() {
+void Ttests::run() {
 
     statisticsTs.clear();
     if (!singleTtestCantBePreformed) {
@@ -69,8 +69,7 @@ void Ttests::calculateStatisticsT() {
         calculateStatisticsTestsPowers(rawMeanDimValues);
         calculateStatisticsTestsSignificance(rawMeanDimValues);
 
-    }
-    if (isPaired && !pairedTtestCantBePreformed) {
+    } else if (isPaired && !pairedTtestCantBePreformed) {
         calculateStatisticsPairedTTests();
         calculateStatisticsTestsPowers(rawMeanDiffDimValues);
         calculateStatisticsTestsSignificance(rawMeanDiffDimValues);
@@ -103,14 +102,15 @@ void Ttests::calculateStatisticsTTestWithKnownPopulationMean() {
 void Ttests::calculateStatisticsTestsPowers(std::vector<double> &testResults) {
     for (int i = 0; i < testResults.size(); i++) {
         int df = data[i].size() - 1;
+        testsPowers.emplace_back(1);
         if (testType == 0) {
             bool isSmaller = false;
             for (auto &[cl, map]: tTableScore.second) {
                 if (!isSmaller) {
-                    isSmaller = map[df] > testResults[i];
+                    isSmaller = map.lower_bound(df)->second > testResults[i];
                 } else {
                     if (map[df] < testResults[i]) {
-                        testsPowers.emplace_back(1 - cl);
+                        testsPowers[i] = 1 - cl;
                         break;
                     }
                 }

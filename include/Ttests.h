@@ -20,17 +20,30 @@ public:
 
     double getCriticalT(int degreesOfFreedom) const {
         if (testType == 0) {
-            return tTableScore.second.lower_bound(confidenceLevel)->second.lower_bound(degreesOfFreedom)->second;
+            auto TtestsValues =tTableScore.second.lower_bound(1-confidenceLevel)->second;
+            if (degreesOfFreedom > (--TtestsValues.end())->first){
+                std::cerr << "we dont have that high degrees of freedom in the table so we switched for zTable " <<std::endl;
+                return createZTable().lower_bound(confidenceLevel)->second;
+            }
+            return TtestsValues.lower_bound(degreesOfFreedom)->second;
         }
+        auto TtestsValues =tTableScore.first.lower_bound(1-confidenceLevel)->second;
+        if (degreesOfFreedom > (--TtestsValues.end())->first){
+            std::cerr << "we dont have that high degrees of freedom in the table so we switched for zTable " <<std::endl;
+            return createZTable().lower_bound(confidenceLevel)->second;
+        }
+        return TtestsValues.lower_bound(degreesOfFreedom)->second;
         return tTableScore.second.lower_bound(confidenceLevel)->second.lower_bound(degreesOfFreedom)->second;
     }
-
+    std::vector<bool> getResults(){return results;}
+    std::vector<double> getTestsSignificances(){return testsSignificance;}
+    std::vector<double> getTestsPowers(){return testsPowers;}
+    void run();
 private:
+
     void mean();
 
     void variance();
-
-    void calculateStatisticsT();
 
     void calculateStatisticsTTestWithKnownPopulationMean();
 

@@ -317,6 +317,7 @@ inline std::pair<std::map<double, std::map<int, double>>, std::map<double, std::
     for (auto &[confidenceLevel, map]: tTableScore.first) {
         tTableScore.second[confidenceLevel * 2] = map;
     }
+    return tTableScore;
 }
 
 #endif //STATISTICS_TABLES_H
