@@ -1,0 +1,5 @@
+include_directories(../include)
+add_executable(Ztest Ztest.cpp)
+target_link_libraries(Ztest zTests)
+add_executable(Ttest Ttest.cpp)
+target_link_libraries(Ttest tTests)

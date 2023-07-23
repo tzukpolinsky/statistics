@@ -40,7 +40,9 @@ private:
 
     void calculateStatisticsPairedTTests();
 
-    void calculateStatisticsNonPairedTTests();
+    void calculateStatisticsNonPairedTTestsWithSameVariance();
+
+    void calculateStatisticsNonPairedTTestWithSameVariances(int i, int j);
 
     void calculateStatisticsPairedTTest(std::vector<double> &data1, std::vector<double> &data2,
                                         double populationDifferenceMean);

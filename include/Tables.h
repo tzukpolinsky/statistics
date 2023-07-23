@@ -5,7 +5,7 @@
 #ifndef STATISTICS_TABLES_H
 #define STATISTICS_TABLES_H
 
-std::map<double, double> createZTable() {
+inline std::map<double, double> createZTable() {
     return std::map<double, double>{{0.500,  0.00},
                                     {0.505,  0.01},
                                     {0.510,  0.03},
@@ -109,7 +109,7 @@ std::map<double, double> createZTable() {
                                     {0.9950, 2.5760}};
 }
 
-std::pair<std::map<double, std::map<int, double>>, std::map<double, std::map<int, double>>> createTTable() {
+inline std::pair<std::map<double, std::map<int, double>>, std::map<double, std::map<int, double>>> createTTable() {
     std::pair<std::map<double, std::map<int, double>>, std::map<double, std::map<int, double>>> tTableScore;
     tTableScore.first[0.1] = {{1,  3.078},
                               {2,  1.886},

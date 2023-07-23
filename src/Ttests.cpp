@@ -75,12 +75,17 @@ void Ttests::calculateStatisticsT() {
         calculateStatisticsTestsPowers(rawMeanDiffDimValues);
         calculateStatisticsTestsSignificance(rawMeanDiffDimValues);
     } else if (!differentVariances) {
-        calculateStatisticsNonPairedTTests();
+        calculateStatisticsNonPairedTTestsWithSameVariance();
+        calculateStatisticsTestsPowers(rawMeanDiffDimValues);
+        calculateStatisticsTestsSignificance(rawMeanDiffDimValues);
+
+    } else if (differentVariances) {
+        calculateStatisticsNonPairedTTestsWithDifferentVariance();
         calculateStatisticsTestsPowers(rawMeanDiffDimValues);
         calculateStatisticsTestsSignificance(rawMeanDiffDimValues);
 
     } else {
-
+        std::cout << "couldn't find any test fit for the implemented use cases" << std::endl;
     }
 }
 
@@ -146,12 +151,12 @@ void Ttests::calculateStatisticsPairedTTest(std::vector<double> &data1, std::vec
             criticalT * std::sqrt(differenceVariance) / std::sqrt(differences.size()) + populationDifferenceMean);
 }
 
-void Ttests::calculateStatisticsNonPairedTTests() {
+void Ttests::calculateStatisticsNonPairedTTestsWithSameVariance() {
     mean();
     variance();
     for (int i = 0; i < data.size(); ++i) {
         for (int j = i + 1; j < data.size(); ++j) {
-            calculateStatisticsNonPairedTTest(i, j);
+            calculateStatisticsNonPairedTTestWithSameVariances(i, j);
         }
 
     }
@@ -178,6 +183,21 @@ void Ttests::calculateStatisticsNonPairedTTest(int i, int j) {
     results.emplace_back(statisticsT > criticalT);
     rawMeanDiffDimValues.emplace_back(
             criticalT * std::sqrt(pulledVariance) / std::sqrt(data[i].size() + data[j].size()) +
+            (populationMean[i] - populationMean[j]));
+
+}
+
+void Ttests::calculateStatisticsNonPairedTTestWithSameVariances(int i, int j) {
+    double joinedVariance = std::sqrt(
+            (double(data[i].size() - 1) * variances[i] + double(data[j].size() - 1) * variances[j]) /
+            double(data[i].size() + data[j].size() - 2)) *
+                            std::sqrt((1 / double(data[i].size()) + (1 / double(data[j].size()))));
+    double statisticsT = std::abs(means[i] - means[j] - (populationMean[i] - populationMean[j])) / joinedVariance;
+    int df = data[i].size() + data[j].size() - 2;
+    double criticalT = getCriticalT(data[i].size() + data[j].size() - 2);
+    results.emplace_back(statisticsT > criticalT);
+    rawMeanDiffDimValues.emplace_back(
+            criticalT * joinedVariance / std::sqrt(data[i].size() + data[j].size()) +
             (populationMean[i] - populationMean[j]));
 
 }

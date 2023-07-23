@@ -42,7 +42,7 @@ private:
 
     void mean();
 
-    static std::map<double, double> zScoreTable;
+    std::map<double, double> zScoreTable;
     const std::unordered_map<int, std::string> checkDirection{{-1, "left"},
                                                               {0,  "two-sides"},
                                                               {1,  "right"}};

@@ -9,7 +9,7 @@ add_library(confidenceInterval src/confidenceInterval.cpp)
 add_library(BinomialDistribution src/BinomialDistribution.cpp)
 add_library(WilcoxonRankedTest src/WilcoxonRankedTest.cpp)
 add_library(Spearman src/Spearman.cpp)
-
+add_subdirectory(tests)
 install(TARGETS linearRegression DESTINATION /usr/local/lib/simpleStatistics)
 install(TARGETS zTests DESTINATION /usr/local/lib/simpleStatistics)
 install(TARGETS confidenceInterval DESTINATION /usr/local/lib/simpleStatistics)
