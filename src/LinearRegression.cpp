@@ -23,7 +23,7 @@ void LinearRegression::mean() {
     meanY /= double(size);
 }
 
-void LinearRegression::calculateLinearCorrelation() {
+void LinearRegression::calculateLinearCorrelation(bool calcFisher) {
     xVariance = 0.0;
     yVariance = 0.0;
     coVariance = 0.0;
@@ -38,7 +38,9 @@ void LinearRegression::calculateLinearCorrelation() {
     coVariance /= double(size);
     xVariance /= double(size);
     yVariance /= double(size);
-    fisherLinearCorrelation = 0.5 * std::log((1 + linearCorrelation) / (1 - linearCorrelation));
+    if (calcFisher) {
+        fisherLinearCorrelation = 0.5 * std::log((1 + linearCorrelation) / (1 - linearCorrelation));
+    }
 }
 
 void LinearRegression::calculateLinearEquation() {
@@ -73,11 +75,13 @@ void LinearRegression::testResult() {
 
 }
 
-void LinearRegression::run() {
+void LinearRegression::run(bool calcFisher, bool calcLinearCorrectness) {
     mean();
-    calculateLinearCorrelation();
+    calculateLinearCorrelation(calcFisher);
     calculateLinearEquation();
-    testResult();
+    if (calcLinearCorrectness) {
+        testResult();
+    }
 }
 
 LinearRegression::LinearRegression() {

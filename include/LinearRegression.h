@@ -14,7 +14,7 @@ class LinearRegression {
 public:
     LinearRegression(std::vector<double> &x, std::vector<double> &y);
     LinearRegression();
-    void run();
+    void run(bool calcFisher = false,bool calcLinearCorrectness = false);
 
     const std::vector<double> &getResiduals() const {
         return residuals;
@@ -99,7 +99,7 @@ public:
 private:
     void mean();
 
-    void calculateLinearCorrelation();
+    void calculateLinearCorrelation(bool calcFisher = false);
 
     void calculateLinearEquation();
 

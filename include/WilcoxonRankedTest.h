@@ -12,6 +12,7 @@
 #include <cmath>
 #include "Tables.h"
 #include <iostream>
+#include <algorithm>
 
 class WilcoxonRankedTest {
 public:
